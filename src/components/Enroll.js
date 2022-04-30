@@ -15,9 +15,6 @@ import { auth } from "./Fbase";
 import axios from 'axios';
 import { useNavigate } from "react-router-dom"
 
-
-
-
 const Enroll = () => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
@@ -94,6 +91,28 @@ const Enroll = () => {
     }
 
 
+<<<<<<< HEAD
+=======
+    const onClickEnroll = async (event) => {
+        try {
+            await createUserWithEmailAndPassword(auth, email, password);
+            let enfrm = new FormData();
+            enfrm.append("username", username);
+            enfrm.append("job_field", fields)
+            enfrm.append("email", email);
+            enfrm.append("password", password);
+            enfrm.append("age", age);
+            enfrm.append("gender", sex);
+            enfrm.append("job", personJob);
+            enfrm.append("position", selected);
+            enfrm.append("credit", '0');
+            enfrm.append('card', image);
+
+            for (let key of enfrm.keys()) {
+                console.log(`${key}: $[enfrm.get(key)}]`);
+            }
+            await axios.post('http://3.38.250.195:8000/user/', enfrm);
+>>>>>>> a3f453df01bd92c0d812b0258b81ffc32d960176
 
     const onClickEnroll = () => {
         createUserWithEmailAndPassword(auth, email, password)
@@ -223,7 +242,19 @@ const Enroll = () => {
 
     return (
         <Container component="main" maxWidth="xs">
+<<<<<<< HEAD
             <Box sx={{ marginTop: 5, display: 'flex', flexDirection: 'column', alignItems: 'center', height: '90vh' }} >
+=======
+            <Box 
+                sx={{ 
+                    marginTop: 5, 
+                    display: 'flex', 
+                    flexDirection: 'column', 
+                    alignItems: 'center', 
+                    height: '90vh' 
+                }} 
+            >
+>>>>>>> a3f453df01bd92c0d812b0258b81ffc32d960176
                 <ValidatorForm noValidate onSubmit={handleSubmit} component="form" sx={{ mt: 3 }} >
                     <Grid container spacing={2}>
                         <Grid item xs={12}>

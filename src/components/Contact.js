@@ -3,6 +3,7 @@ import { Box, Button, createTheme, Grid, IconButton, TextField, ThemeProvider, T
 import FacebookIcon from '@mui/icons-material/Facebook';
 import TwitterIcon from '@mui/icons-material/Twitter';
 import InstagramIcon from '@mui/icons-material/Instagram';
+import axios from 'axios';
 
 const Gallery = () => {
     const font = "'Roboto', sans-serif";
@@ -33,12 +34,20 @@ const Gallery = () => {
         }
     }
 
-    const onClickSubmit = () => {
-        // TODO 서버에 보내기
-        console.log(name);
-        console.log(email);
-        console.log(phoneNumber);
-        console.log(content);
+    const onClickSubmit = async () => {
+        try{
+            await axios.post("http://3.38.104.20:8000/cs/", {
+            'name': name,
+            'email': email,
+            'phoneNumber': phoneNumber,
+            'content': content,
+            });
+            alert("접수가 완료됐습니다.");
+            window.location.reload();
+        } catch (error){
+            alert("접수하지 못했습니다.");
+        }
+        
     }
 
     return (
