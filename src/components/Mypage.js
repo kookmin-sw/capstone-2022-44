@@ -1,32 +1,65 @@
 import { Box, Grid, Typography } from "@mui/material";
-import { useEffect, useState } from "react";
-import { onAuthStateChanged } from "firebase/auth";
-import { auth } from './Fbase'
+import { useState } from "react";
+// import { EmailAuthProvider, reauthenticateWithCredential } from "firebase/auth";
+// import { auth } from './Fbase'
+// import axios from 'axios';
 import PropTypes from 'prop-types';
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
+import UserInfo from './UserInfo'
+
 
 
 const Mypage = () => {
     const [value, setValue] = useState(0);
-    const [email, setEmail] = useState("");
+    // const [currentPassword] = useState("");
+    // const [newpassword] = useState("");
+    // const [users, setUsers] = useState([]);
+
 
     const handleChange = (event, newValue) => {
         setValue(newValue);
     };
 
-    useEffect(() => {
-        onAuthStateChanged(auth, (user) => {
-            if (user) {
-                // TODO email = user.email;
-                setEmail(user.email);
-            } else {
-                window.location.replace("login");
-                alert("You Need Login To Use This Service.");
-            }
-        })
-        
-    }, []);
+
+    // useEffect(() => {
+
+    //     const user = auth.currentUser;
+
+    //     async function getUserInfo() {
+    //         const result = await axios.get('http://3.36.117.66:8000/user/search/', { params: { email: user.email } })
+    //             .then(function (response) {
+    //                 console.log(response.data);
+    //                 setUsers(response.data);
+    //             })
+    //             .catch((error) => {
+    //                 console.log(error);
+    //             });
+
+    //     }
+    //     getUserInfo();
+
+    // }, []);
+
+    // const reauthenticate = (currentPassword) => {
+    //     let user = auth.currentUser;
+    //     let cred = EmailAuthProvider.credential(user.email, currentPassword);
+    //     return user.reauthenticateWithCredential(cred);
+    // }
+
+    // const onChangePassword = () => {
+    //     reauthenticate(currentPassword)
+    //         .then(() => {
+    //             const user = auth.currentUser;
+    //             user.updatePassword(newpassword)
+    //                 .then(() => {
+
+    //                 });
+    //         })
+    //         .catch((error) => {
+    //             console.log(error);
+    //         })
+    // }
 
     function TabPanel(props) {
         const { children, value, index, ...other } = props;
@@ -71,7 +104,7 @@ const Mypage = () => {
                     flexGrow: 1,
                 }}
             >
-                <Grid container columns={{ xs: 3, sm: 6, md: 12 }} style={{marginTop: 50}}>
+                <Grid container columns={{ xs: 3, sm: 6, md: 12 }} style={{ marginTop: 50 }}>
                     <Tabs
                         orientation="vertical"
                         variant="scrollable"
@@ -84,26 +117,26 @@ const Mypage = () => {
                         <Tab label="내 PDF" {...a11yProps(1)} />
                     </Tabs>
                     <TabPanel value={value} index={0}>
-                        {email}
+                        <UserInfo />
                     </TabPanel>
-                    <TabPanel value={value} index={1} style={{textAlign: "center", width: "90%"}}>
+                    <TabPanel value={value} index={1} style={{ textAlign: "center", width: "90%" }}>
                         <img src="/img/s.png" style={{ width: "60%", height: 500, minWidth: 500 }} />
                     </TabPanel>
                     <TabPanel value={value} index={2}>
                         Item Three
-                        </TabPanel>
+                    </TabPanel>
                     <TabPanel value={value} index={3}>
                         Item Four
-                        </TabPanel>
+                    </TabPanel>
                     <TabPanel value={value} index={4}>
                         Item Five
-                        </TabPanel>
+                    </TabPanel>
                     <TabPanel value={value} index={5}>
                         Item Six
-                        </TabPanel>
+                    </TabPanel>
                     <TabPanel value={value} index={6}>
                         Item Seven
-                         </TabPanel>
+                    </TabPanel>
                 </Grid>
             </Box>
         </>

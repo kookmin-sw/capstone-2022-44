@@ -10,6 +10,7 @@ import WebGazer from '../components/WebGazer'
 import Track from '../components/Track'
 import Mypage from '../components/Mypage'
 
+
 const Router = () => {
     return (
         <Routes>
@@ -24,6 +25,7 @@ const Router = () => {
             <Route path="/webgazer" element={<WebGazer />} />
             <Route path="/track" element={<Track />} />
             <Route path="/mypage" element={<Mypage />} />
+
         </Routes>
     );
 };

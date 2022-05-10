@@ -19,20 +19,6 @@ const WebGazer = () => {
     const [email, setEmail] = useState("");
     var pageNum = 0;
     var dimensionArr = []; // webgazer x, y 좌표가 담길 배열
-<<<<<<< HEAD
-
-    useEffect(async () => {
-        try {
-            setLoading(true);
-            const datas = []; // get 받아올 배열
-            const response = await axios.get('http://54.180.126.190:8000/pdf/'); // get 함수
-            datas.push(response.data[0]); // 데이터는 response.data 안에 들어있습니다.
-            setImgsUrl(datas[0].imgs_url);
-            setLength(datas[0].img_length);
-            setUserId(datas[0].user_id);
-            setPdfId(datas[0].pdf_id);
-=======
->>>>>>> a3f453df01bd92c0d812b0258b81ffc32d960176
 
     useEffect(() => {
         const fetchUser = () => {
@@ -53,7 +39,7 @@ const WebGazer = () => {
         const fetchData = async () => {
             try {
                 const response = await axios.get('http://3.36.95.29:8000/pdf/').then(res => {
-                    if (res.status === 200){
+                    if (res.status === 200) {
                         setImgsUrl(res.data[0].imgs_url);
                         setUserId(res.data[0].user_id);
                         setPdfId(res.data[0].id);
@@ -68,7 +54,7 @@ const WebGazer = () => {
         }
         fetchUser();
         fetchData();
-        
+
     }, []);
 
     // loadng 중 일 때 보여줄 화면 (loading == true)
@@ -88,13 +74,9 @@ const WebGazer = () => {
     )
 
     // error가 있을 때 alert
-<<<<<<< HEAD
-    if (error) return alert("에러가 발생했습니다");
-=======
     if (error) {
         navigate("/upload");
     }
->>>>>>> a3f453df01bd92c0d812b0258b81ffc32d960176
 
     // webgazer 시작 함수
     const onClickStart = () => {
@@ -104,12 +86,7 @@ const WebGazer = () => {
             }
             dimensionArr.push([Math.floor(data.x), Math.floor(data.y)]);
         }).begin();
-<<<<<<< HEAD
-        //webgazer.applyKalmanFilter(true);
-
-=======
         webgazer.applyKalmanFilter(true);
->>>>>>> a3f453df01bd92c0d812b0258b81ffc32d960176
     }
 
     // webgazer 종료 함수
@@ -129,28 +106,8 @@ const WebGazer = () => {
         window.location.reload();
     }
 
-<<<<<<< HEAD
-    // 화살표 오른쪽 함수
-    const onClickRightArrow = async () => {
-        await axios.post("http://54.180.126.190:8000/eyetracking/", {
-            'user_id': 1,
-            'page_number': `${pageNum}`,
-            'rating_time': '00:00:00',
-            'coordinate': dimensionArr,
-            'owner_id': userId,
-            'pdf_id': pdfId
-        });
-        // TODO post.then(arr = []) arr null 처리 arr boundary 밖 값들 무시
-        if (pageNum === length) {
-            pageNum = length;
-        } else {
-            pageNum = pageNum + 1;
-        }
-        dimensionArr = [];
-=======
     const onClickBack = () => {
         window.location.replace("upload");
->>>>>>> a3f453df01bd92c0d812b0258b81ffc32d960176
     }
 
     // Before swipe slide, post data to server
@@ -163,15 +120,6 @@ const WebGazer = () => {
             'pdf_id': pdfId,
             'coordinate': dimensionArr,
         });
-<<<<<<< HEAD
-        // TODO post.then(arr = []) arr null 처리 arr boundary 밖 값들 무시
-        if (pageNum === 0) {
-            pageNum = 0;
-        } else {
-            pageNum = pageNum - 1;
-        }
-=======
->>>>>>> a3f453df01bd92c0d812b0258b81ffc32d960176
         dimensionArr = [];
     }
 
@@ -207,16 +155,16 @@ const WebGazer = () => {
                             </img> */}
                             {imgsUrl && imgsUrl.map((e, index) => (
                                 <img key={index} src={e} style={{ width: "90%", height: "80vh" }} />
-                                
+
                             ))}
                         </AliceCarousel>
                         <Button variant="contained" size="large" onClick={onClickStart}>
                             Start
                         </Button>
-                        <Button variant="contained" size="large" onClick={onClickEnd} style={{marginLeft: 10}}>
+                        <Button variant="contained" size="large" onClick={onClickEnd} style={{ marginLeft: 10 }}>
                             End
                         </Button>
-                        <Button variant="contained" size="large" onClick={onClickBack} style={{marginLeft: 10}}>
+                        <Button variant="contained" size="large" onClick={onClickBack} style={{ marginLeft: 10 }}>
                             Back
                         </Button>
                     </Grid>

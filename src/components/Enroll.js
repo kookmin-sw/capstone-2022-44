@@ -1,15 +1,13 @@
-import { Box, Button, Container, FormControlLabel, Grid, TextField } from "@mui/material"
+import { Box, Button, Container, FormControlLabel, Grid, TextField, FormControl, FormHelperText } from "@mui/material"
 import Radio from '@mui/material/Radio';
 import RadioGroup from '@mui/material/RadioGroup';
 import { useTheme } from '@mui/material/styles';
 import OutlinedInput from '@mui/material/OutlinedInput';
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
-import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 import FormLabel from '@mui/material/FormLabel';
 import { useState } from "react";
-import { ValidatorForm, TextValidator } from 'react-material-ui-form-validator';
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { auth } from "./Fbase";
 import axios from 'axios';
@@ -26,6 +24,9 @@ const Enroll = () => {
     const [image, setImage] = useState("");
     const [username, setUsername] = useState("");
     const [fields, setFields] = useState([]);
+    const [emailError, setEmailError] = useState('');
+    const [passwordState, setPasswordState] = useState('');
+    const [passwordError, setPasswordError] = useState('');
     const navigate = useNavigate();
 
     const onChange = (event) => {
@@ -58,11 +59,20 @@ const Enroll = () => {
         enfrm.append("position", selected);
         enfrm.append('card', image);
 
-        const res = await axios.post('http://3.36.95.29:8000/user/', enfrm)
+        const res = await axios.post('http://52.78.89.78:8000/user/', enfrm)
             .then(function (response) {
                 console.log(response);
-                alert("정상적으로 회원가입이 완료되었습니다.")
-                navigate("/home");
+                createUserWithEmailAndPassword(auth, email, password)
+                    .then(() => {
+                        console.log('crew')
+                        alert("정상적으로 회원가입이 완료되었습니다.")
+                        navigate("/home");
+
+                    })
+                    .catch((error) => {
+                        console.error(error);
+                        alert("정보를 다시 확인해주세요");
+                    });
             })
             .catch(function (error) {
                 if (error.response) {
@@ -91,40 +101,40 @@ const Enroll = () => {
     }
 
 
-<<<<<<< HEAD
-=======
-    const onClickEnroll = async (event) => {
-        try {
-            await createUserWithEmailAndPassword(auth, email, password);
-            let enfrm = new FormData();
-            enfrm.append("username", username);
-            enfrm.append("job_field", fields)
-            enfrm.append("email", email);
-            enfrm.append("password", password);
-            enfrm.append("age", age);
-            enfrm.append("gender", sex);
-            enfrm.append("job", personJob);
-            enfrm.append("position", selected);
-            enfrm.append("credit", '0');
-            enfrm.append('card', image);
 
-            for (let key of enfrm.keys()) {
-                console.log(`${key}: $[enfrm.get(key)}]`);
-            }
-            await axios.post('http://3.38.250.195:8000/user/', enfrm);
->>>>>>> a3f453df01bd92c0d812b0258b81ffc32d960176
+    const onClickEnroll = (e) => {
+        e.preventDefault();
+        // 이메일 유효성 체크
+        const emailRegex = /([\w-.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([\w-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$/;
 
-    const onClickEnroll = () => {
-        createUserWithEmailAndPassword(auth, email, password)
-            .then(() => {
+        if (!emailRegex.test(email)) {
+            setEmailError('올바른 이메일 형식이 아닙니다.');
+        } else {
+            setEmailError('');
+        }
 
-            })
-            .catch((error) => {
-                console.error(error);
-                alert("정보를 다시 확인해주세요");
-            });
+        // 비밀번호 유효성 체크
+        const passwordRegex = /^(?=.*[a-zA-Z])(?=.*[!@#$%^*+=-])(?=.*[0-9]).{8,25}$/;
+        if (!passwordRegex.test(password)) {
+            setPasswordState('숫자+영문자+특수문자 조합으로 8자리 이상 입력해주세요!');
+        } else {
+            setPasswordState('');
+        }
 
-        postinfo();
+        // 비밀번호 같은지 체크
+        if (password !== confirmpassword) {
+            setPasswordError('비밀번호가 일치하지 않습니다.');
+        } else {
+            setPasswordError('');
+        }
+
+        if (
+            emailRegex.test(email) &&
+            passwordRegex.test(password) &&
+            password === confirmpassword
+        ) {
+            postinfo();
+        }
     }
 
     const ITEM_HEIGHT = 48;
@@ -156,7 +166,7 @@ const Enroll = () => {
         type = student2;
     }
 
-    function getStyles(job, personJob, theme) {
+    function getStylesSelect(job, personJob, theme) {
         return {
             fontWeight:
                 personJob.indexOf(job) === -1
@@ -165,7 +175,7 @@ const Enroll = () => {
         };
     }
 
-    function getStyles2(el, type, theme) {
+    function getStylesSelect2(el, type, theme) {
         return {
             fontWeight:
                 type.indexOf(el) === -1
@@ -174,7 +184,7 @@ const Enroll = () => {
         };
     }
 
-    function getStyles3(field, fields, theme) {
+    function getStylesSelect3(field, fields, theme) {
         return {
             fontWeight:
                 fields.indexOf(field) === -1
@@ -186,15 +196,15 @@ const Enroll = () => {
     const theme = useTheme();
 
 
-    const handleChange = (event) => {
+    const handleChangeJob = (event) => {
         setPersonJob(event.target.value)
     };
 
-    const handleChange2 = (event) => {
+    const handleChangeSelect = (event) => {
         setSelected(event.target.value)
     };
 
-    const handleChange3 = (event) => {
+    const handleChangeField = (event) => {
         setFields(event.target.value)
     };
 
@@ -206,94 +216,64 @@ const Enroll = () => {
         setImage(image);
     }
 
-    const handleSubmit = () => {
-
-    }
 
     if (type) {
         options = type.map((el) => (
             <MenuItem
                 key={el}
                 value={el}
-                style={getStyles2(el, type, theme)}
+                style={getStylesSelect2(el, type, theme)}
             >
                 {el}
             </MenuItem>
         ))
     }
 
-    function componentDidMount() {
-        // custom rule will have name 'isPasswordMatch'
-        ValidatorForm.addValidationRule('isPasswordMatch', (value) => {
-            if (value !== password) {
-                return false;
-            }
-            return true;
-        });
-    }
-
-    const onKeyUp = (event) => {
-        if (event.keycode === '9') {
-            componentDidMount();
-        }
-
-    }
-
-
     return (
         <Container component="main" maxWidth="xs">
-<<<<<<< HEAD
-            <Box sx={{ marginTop: 5, display: 'flex', flexDirection: 'column', alignItems: 'center', height: '90vh' }} >
-=======
-            <Box 
-                sx={{ 
-                    marginTop: 5, 
-                    display: 'flex', 
-                    flexDirection: 'column', 
-                    alignItems: 'center', 
-                    height: '90vh' 
-                }} 
-            >
->>>>>>> a3f453df01bd92c0d812b0258b81ffc32d960176
-                <ValidatorForm noValidate onSubmit={handleSubmit} component="form" sx={{ mt: 3 }} >
+            <Box component="form" noValidate sx={{ marginTop: 5, display: 'flex', flexDirection: 'column', alignItems: 'center', height: '90vh' }} >
+                <FormControl component="fieldset" variant="standard">
                     <Grid container spacing={2}>
                         <Grid item xs={12}>
                             <TextField
+                                required
+                                autoFocus
                                 fullWidth
                                 name="email"
                                 label="Email Address"
-                                autoComplete="email"
+                                // autoComplete="email"
                                 onChange={onChange}
+                                error={emailError !== '' || false}
                             />
                         </Grid>
+                        <FormHelperText>{emailError}</FormHelperText>
                         <Grid item xs={12}>
-                            <TextValidator
+                            <TextField
+                                required
                                 fullWidth
-                                label="Password"
+                                label="Password(숫자+영문자+특수문자 8자리 이상)"
                                 name="password"
                                 type="password"
-                                autoComplete="current-password"
-                                onChange={onChange}
-                                validators={['required']}
-                                errorMessages={['this field is required']}
+                                // autoComplete="current-password"
                                 value={password}
+                                onChange={onChange}
+                                error={passwordState !== '' || false}
                             />
                         </Grid>
+                        <FormHelperText>{passwordState}</FormHelperText>
                         <Grid item xs={12}>
-                            <TextValidator
+                            <TextField
                                 fullWidth
                                 name="confirmpassword"
                                 label="Repeat password"
                                 type="password"
-                                autoComplete="repeat-password"
-                                onChange={onChange}
-                                validators={['isPasswordMatch', 'required']}
-                                errorMessages={['password mismatch', 'this field is required']}
+                                // autoComplete="repeat-password"
                                 value={confirmpassword}
-                                onClick={componentDidMount}
-                                onKeyUp={onKeyUp}
+                                onChange={onChange}
+                                error={passwordError !== '' || false}
                             />
                         </Grid>
+                        <FormHelperText>{passwordError}</FormHelperText>
                         <Grid item xs={12}>
                             <TextField
                                 fullWidth
@@ -337,7 +317,7 @@ const Enroll = () => {
                                     labelId="demo-multiple-job-label"
                                     id="demo-multiple-job"
                                     value={personJob}
-                                    onChange={handleChange}
+                                    onChange={handleChangeJob}
                                     input={<OutlinedInput label="Job" />}
                                     MenuProps={MenuProps}
                                     defaultValue={""}
@@ -346,7 +326,7 @@ const Enroll = () => {
                                         <MenuItem
                                             key={job}
                                             value={job}
-                                            style={getStyles(job, personJob, theme)}
+                                            style={getStylesSelect(job, personJob, theme)}
                                         >
                                             {job}
                                         </MenuItem>
@@ -359,7 +339,7 @@ const Enroll = () => {
                                     labelId="demo-multiple-sub-label"
                                     id="demo-multiple-sub"
                                     value={selected}
-                                    onChange={handleChange2}
+                                    onChange={handleChangeSelect}
                                     input={<OutlinedInput label="Sub" />}
                                     MenuProps={MenuProps}
                                     defaultValue={""}
@@ -375,7 +355,7 @@ const Enroll = () => {
                                     labelId="demo-multiple-field-label"
                                     id="demo-multiple-field"
                                     value={fields}
-                                    onChange={handleChange3}
+                                    onChange={handleChangeField}
                                     input={<OutlinedInput label="Job_Field" />}
                                     MenuProps={MenuProps}
                                     defaultValue={""}
@@ -384,7 +364,7 @@ const Enroll = () => {
                                         <MenuItem
                                             key={field}
                                             value={field}
-                                            style={getStyles3(field, fields, theme)}
+                                            style={getStylesSelect3(field, fields, theme)}
                                         >
                                             {field}
                                         </MenuItem>
@@ -413,15 +393,17 @@ const Enroll = () => {
                         </Grid>
                         <Grid item xs={12}>
                             <Button
+                                type="submit"
                                 fullWidth
                                 variant="contained"
                                 sx={{ mt: 3, mb: 2 }}
-                                onClick={onClickEnroll}>
+                                onClick={onClickEnroll}
+                            >
                                 회원가입
                             </Button>
                         </Grid>
                     </Grid>
-                </ValidatorForm>
+                </FormControl>
             </Box>
         </Container >
     )
