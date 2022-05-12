@@ -1,9 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import { Button, Grid, Box, Typography } from '@mui/material';
-import { Link } from 'react-router-dom';
-import { auth } from './Fbase'
+
 import axios from 'axios';
-import { onAuthStateChanged } from "firebase/auth";
+
+import { Button, Grid, Box, Typography } from '@mui/material';
 import UploadFileOutlinedIcon from '@mui/icons-material/UploadFileOutlined';
 import VisibilityOutlinedIcon from '@mui/icons-material/VisibilityOutlined';
 import PersonSearchOutlinedIcon from '@mui/icons-material/PersonSearchOutlined';
@@ -14,85 +13,70 @@ import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
-import { useNavigate } from "react-router-dom";
-import Dialog from '@mui/material/Dialog';
-import DialogActions from '@mui/material/DialogActions';
-import DialogContent from '@mui/material/DialogContent';
-import DialogContentText from '@mui/material/DialogContentText';
-import DialogTitle from '@mui/material/DialogTitle';
+
+import { Link } from 'react-router-dom';
+
+import Loading from "./Loading";
+import IsLoggedIn from "./IsLoggedIn";
+import { auth } from './Fbase';
+import { onAuthStateChanged } from "firebase/auth";
 
 const Upload = () => {
-    const [isLoggedIn, setIsLoggedIn] = useState(true);
-    const [email, setEmail] = useState("");
-    const [jobField, setJobField] = useState("");
-    const [open, setOpen] = useState(true);
-    const navigate = useNavigate();
+    const [isLoading, setIsLoading] = useState(true); // 로그인 판별을 위한 로딩 변수
+    const [isLoggedIn, setIsLoggedIn] = useState(false); // 로그인 유무 판별 변수
+
+    const [email, setEmail] = useState(""); // 유저 이메일 변수
+    const [jobField, setJobField] = useState(""); // PDF 올릴 때 종류 변수
 
     // 처음 렌더링 후 유저가 로그인이 되어있는지 확인 로그인한 상태가 아니라면 로그인 페이지로 이동
     useEffect(() => {
-        onAuthStateChanged(auth, (user) => {
-            if (user) {
-                setEmail(user.email);
-                setIsLoggedIn(true);
-            } else {
-                setIsLoggedIn(false);
-            }
-        })
+        // 유저 정보 가져오는 함수
+        try {
+            onAuthStateChanged(auth, (user) => {
+                if (user) {
+                    setEmail(user.email);
+                    setIsLoggedIn(true);
+                }
+                setIsLoading(false);
+            });
+        } catch (error) {
+            console.log(error);
+        }
     }, []);
 
-    const onClickLogin = () => {
-        setOpen(false);
-        navigate("/login");
-    };
-
-    // pdf 업로드 함수
+    // PDF 업로드 함수
     const handlePdfFileChange = (e) => {
         var frm = new FormData();
         frm.append("pdf", e.target.files[0]);
         frm.append("email", email);
         frm.append("job_field", jobField);
-        axios.post('http://3.36.95.29:8000/pdf/', frm);
+        axios.post('http://52.78.246.65:8000/pdf/', frm).then(res => {
+            if (res.status === 200) {
+                alert("PDF 업로드에 성공했습니다.");
+            }
+            else {
+                alert("PDF 업로드에 실패했습니다. 다시 시도해주세요.");
+            }
+        });
     };
 
+    // PDF 종류 골랐을 때
     const handleChange = (event) => {
         setJobField(event.target.value);
     };
 
-    if (!isLoggedIn) return (
-        <Box
-            sx={{
-                width: '100vw',
-                height: '100vh',
-                display: 'column',
-                background: '#ecebe9',
-                flexGrow: 1,
-            }}
-        >
-            <Dialog
-                open={open}
-                onClose={onClickLogin}
-                aria-labelledby="alert-dialog-title"
-                aria-describedby="alert-dialog-description"
-            >
-                <DialogTitle id="alert-dialog-title">
-                    {"Did You Logged In?"}
-                </DialogTitle>
-                <DialogContent>
-                    <DialogContentText id="alert-dialog-description">
-                        이 페이지는 로그인 후 이용이 가능합니다.
-                        로그인 페이지로 가서 로그인해주시기 바랍니다.
-                    </DialogContentText>
-                </DialogContent>
-                <DialogActions>
-                    <Button onClick={onClickLogin} autoFocus>
-                        로그인
-                    </Button>
-                </DialogActions>
-            </Dialog>
-        </Box>
+    // 로딩 중일 때 보여줄 화면
+    if (isLoading) return (
+       <Loading />
     )
 
-    return (
+    // 로그인이 안 되어 있을 때 보여줄 다이얼로그
+    else if (!isLoggedIn) return (
+        <IsLoggedIn />
+    )
+
+    // 본 페이지
+    else return (
         <>
             <Box
                 sx={{
