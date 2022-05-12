@@ -15,7 +15,7 @@ const UserInfo = () => {
 
         const user = auth.currentUser;
         async function getUserInfo() {
-            await axios.get('http://52.78.89.78:8000/user/search/', { params: { email: user.email } })
+            await axios.get('http://52.79.247.7:8000/user/search/', { params: { email: user.email } })
                 .then(function (response) {
                     console.log(response.data);
                     setUsers(response.data);

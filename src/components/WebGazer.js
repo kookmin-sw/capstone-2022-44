@@ -25,65 +25,6 @@ const WebGazer = () => {
     var dimensionArr = []; // webgazer x, y 좌표가 담길 배열
 
     useEffect(() => {
-<<<<<<< HEAD
-        const fetchUser = () => {
-            try {
-                onAuthStateChanged(auth, (user) => {
-                    if (user) {
-                        setIsLoggedIn(true);
-                        setEmail(user.email);
-                    } else {
-                        setIsLoggedIn(false);
-                    }
-                });
-            } catch (error) {
-                console.log(error);
-            }
-        };
-
-        const fetchData = async () => {
-            try {
-                const response = await axios.get('http://3.36.95.29:8000/pdf/').then(res => {
-                    if (res.status === 200) {
-                        setImgsUrl(res.data[0].imgs_url);
-                        setUserId(res.data[0].user_id);
-                        setPdfId(res.data[0].id);
-                        setIsLoading(false);
-                    } else {
-                        setIsLoading(true);
-                    }
-                });
-            } catch (e) {
-                setError(e);
-            }
-        }
-        fetchUser();
-        fetchData();
-
-    }, []);
-
-    // loadng 중 일 때 보여줄 화면 (loading == true)
-    if (isLoading) return (
-        <Box
-            sx={{
-                width: '100vw',
-                height: '100vh',
-                background: '#ecebe9',
-                flexGrow: 1,
-            }}
-        >
-            <div style={{ display: 'flex', justifyContent: 'center' }}>
-                <CircularProgress size={300} style={{ marginTop: "15%" }} />
-            </div>
-        </Box>
-    )
-
-    // error가 있을 때 alert
-    if (error) {
-        navigate("/upload");
-    }
-
-=======
         // 유저 정보 가져오는 함수
         try {
             onAuthStateChanged(auth, (user) => {
@@ -105,7 +46,6 @@ const WebGazer = () => {
         }
     }, []);
 
->>>>>>> 62a1e659b432f23bb257c4399425403a85de315e
     // webgazer 시작 함수
     const onClickStart = () => {
         webgazer.setRegression('weightedRidge').setTracker('trackingjs').setGazeListener(function (data) {
@@ -157,10 +97,6 @@ const WebGazer = () => {
             }
             dimensionArr = [];
         });
-<<<<<<< HEAD
-        dimensionArr = [];
-=======
->>>>>>> 62a1e659b432f23bb257c4399425403a85de315e
     }
 
     // After swipe silde, pageNum setting

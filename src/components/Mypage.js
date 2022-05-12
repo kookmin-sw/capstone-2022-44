@@ -1,15 +1,7 @@
-<<<<<<< HEAD
-import { Box, Grid, Typography } from "@mui/material";
-import { useState } from "react";
-// import { EmailAuthProvider, reauthenticateWithCredential } from "firebase/auth";
-// import { auth } from './Fbase'
-// import axios from 'axios';
-=======
 import { useEffect, useState } from "react";
 
 import { Box, Grid, Typography, Button } from "@mui/material";
 import { DataGrid } from '@mui/x-data-grid';
->>>>>>> 62a1e659b432f23bb257c4399425403a85de315e
 import PropTypes from 'prop-types';
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
@@ -51,12 +43,6 @@ const Mypage = () => {
 
     const user = auth.currentUser;
     const [value, setValue] = useState(0);
-<<<<<<< HEAD
-    // const [currentPassword] = useState("");
-    // const [newpassword] = useState("");
-    // const [users, setUsers] = useState([]);
-
-=======
     const [userEmail, setUserEmail] = useState("");
     const [visualType, setVisualType] = useState("distribution");
     const [firstPdfs, setFirstPdfs] = useState([]); // 첫 번째 pdfs
@@ -79,7 +65,6 @@ const Mypage = () => {
             console.log(error);
         }
     }, []);
->>>>>>> 62a1e659b432f23bb257c4399425403a85de315e
 
     // 사이드 바에서 유저가 선택한 탭 처리 함수
     const handleChange = (event, newValue) => {
@@ -99,50 +84,8 @@ const Mypage = () => {
             })
         } else if (newValue === 2) {
 
-<<<<<<< HEAD
-
-    // useEffect(() => {
-
-    //     const user = auth.currentUser;
-
-    //     async function getUserInfo() {
-    //         const result = await axios.get('http://3.36.117.66:8000/user/search/', { params: { email: user.email } })
-    //             .then(function (response) {
-    //                 console.log(response.data);
-    //                 setUsers(response.data);
-    //             })
-    //             .catch((error) => {
-    //                 console.log(error);
-    //             });
-
-    //     }
-    //     getUserInfo();
-
-    // }, []);
-
-    // const reauthenticate = (currentPassword) => {
-    //     let user = auth.currentUser;
-    //     let cred = EmailAuthProvider.credential(user.email, currentPassword);
-    //     return user.reauthenticateWithCredential(cred);
-    // }
-
-    // const onChangePassword = () => {
-    //     reauthenticate(currentPassword)
-    //         .then(() => {
-    //             const user = auth.currentUser;
-    //             user.updatePassword(newpassword)
-    //                 .then(() => {
-
-    //                 });
-    //         })
-    //         .catch((error) => {
-    //             console.log(error);
-    //         })
-    // }
-=======
         }
     };
->>>>>>> 62a1e659b432f23bb257c4399425403a85de315e
 
     function TabPanel(props) {
         const { children, value, index, ...other } = props;
@@ -293,139 +236,117 @@ const Mypage = () => {
                         <Tab label="회원 탈퇴" {...a11yProps(2)} />
                     </Tabs>
                     <TabPanel value={value} index={0}>
-<<<<<<< HEAD
                         <UserInfo />
-                    </TabPanel>
-                    <TabPanel value={value} index={1} style={{ textAlign: "center", width: "90%" }}>
-                        <img src="/img/s.png" style={{ width: "60%", height: 500, minWidth: 500 }} />
-                    </TabPanel>
-                    <TabPanel value={value} index={2}>
-                        Item Three
-                    </TabPanel>
-                    <TabPanel value={value} index={3}>
-                        Item Four
-                    </TabPanel>
-                    <TabPanel value={value} index={4}>
-                        Item Five
-                    </TabPanel>
-                    <TabPanel value={value} index={5}>
-                        Item Six
-                    </TabPanel>
-                    <TabPanel value={value} index={6}>
-                        Item Seven
-=======
-                        {userEmail}
                     </TabPanel>
                     <TabPanel value={value} index={1} style={{ textAlign: "center", width: "90%" }}>
                         {isLoading ? (
                             <Loading />
                         ) : (
-                                step === 1 ? (
+                            step === 1 ? (
+                                <>
+                                    <div style={{ height: 630, width: '80%', margin: "auto" }}>
+                                        <DataGrid
+                                            rows={showedPdfs}
+                                            columns={columns}
+                                            pageSize={10}
+                                            rowsPerPageOptions={[10]}
+                                            selectionModel={selectionModel}
+                                            onSelectionModelChange={(newSelectionModel) => {
+                                                setSelectionModel(newSelectionModel);
+                                            }}
+                                            onCellClick={(params, event) => {
+
+                                                console.log(event);
+                                                console.log(params);
+                                                setPdfId(params.row.id);
+                                            }}
+                                            style={{ align: "center" }}
+                                        />
+                                    </div>
+                                    <Button size="large" onClick={onClickContinue} style={{ color: "black" }}>
+                                        NEXT
+                                    </Button>
+                                </>
+                            ) : (
+                                step === 2 ? (
                                     <>
                                         <div style={{ height: 630, width: '80%', margin: "auto" }}>
                                             <DataGrid
                                                 rows={showedPdfs}
-                                                columns={columns}
+                                                columns={stepTwoColumns}
                                                 pageSize={10}
                                                 rowsPerPageOptions={[10]}
                                                 selectionModel={selectionModel}
                                                 onSelectionModelChange={(newSelectionModel) => {
                                                     setSelectionModel(newSelectionModel);
                                                 }}
-                                                onCellClick={(params, event) => {
-
-                                                    console.log(event);
+                                                onCellClick={(params) => {
                                                     console.log(params);
                                                     setPdfId(params.row.id);
                                                 }}
                                                 style={{ align: "center" }}
                                             />
                                         </div>
+                                        <Button size="large" onClick={onClickBack} style={{ color: "black" }}>
+                                            BACK
+                                        </Button>
                                         <Button size="large" onClick={onClickContinue} style={{ color: "black" }}>
                                             NEXT
                                         </Button>
                                     </>
                                 ) : (
-                                        step === 2 ? (
-                                            <>
-                                                <div style={{ height: 630, width: '80%', margin: "auto" }}>
-                                                    <DataGrid
-                                                        rows={showedPdfs}
-                                                        columns={stepTwoColumns}
-                                                        pageSize={10}
-                                                        rowsPerPageOptions={[10]}
-                                                        selectionModel={selectionModel}
-                                                        onSelectionModelChange={(newSelectionModel) => {
-                                                            setSelectionModel(newSelectionModel);
-                                                        }}
-                                                        onCellClick={(params) => {
-                                                            console.log(params);
-                                                            setPdfId(params.row.id);
-                                                        }}
-                                                        style={{ align: "center" }}
-                                                    />
-                                                </div>
-                                                <Button size="large" onClick={onClickBack} style={{ color: "black" }}>
-                                                    BACK
+                                    <>
+                                        <AliceCarousel
+                                            animationDuration={1}
+                                            keyboardNavigation={true}
+                                            disableButtonsControls={true}
+                                        >
+                                            {trackedImages && trackedImages.map((e, index) => (
+                                                <img
+                                                    key={index}
+                                                    src={e}
+                                                    style={{ width: "80%", height: 500 }}
+                                                />
+                                            ))}
+                                        </AliceCarousel>
+                                        {visualType === "distribution" ?
+                                            (
+                                                <Button
+                                                    variant="contained"
+                                                    size="large"
+                                                    onClick={onClickVisualType}
+                                                >
+                                                    시선 흐름 보기
                                                 </Button>
-                                                <Button size="large" onClick={onClickContinue} style={{ color: "black" }}>
-                                                    NEXT
+                                            ) : (
+                                                <Button
+                                                    variant="contained"
+                                                    size="large"
+                                                    onClick={onClickVisualType}
+                                                >
+                                                    분포도 보기
                                                 </Button>
-                                            </>
-                                        ) : (
-                                                <>
-                                                    <AliceCarousel
-                                                        animationDuration={1}
-                                                        keyboardNavigation={true}
-                                                        disableButtonsControls={true}
-                                                    >
-                                                        {trackedImages && trackedImages.map((e, index) => (
-                                                            <img
-                                                                key={index}
-                                                                src={e}
-                                                                style={{ width: "80%", height: 500 }}
-                                                            />
-                                                        ))}
-                                                    </AliceCarousel>
-                                                    {visualType === "distribution" ? 
-                                                        (
-                                                            <Button 
-                                                                variant="contained"
-                                                                size="large"
-                                                                onClick={onClickVisualType}
-                                                            >
-                                                                시선 흐름 보기
-                                                            </Button>
-                                                        ) : (
-                                                            <Button
-                                                                variant="contained"
-                                                                size="large"
-                                                                onClick={onClickVisualType}
-                                                            >
-                                                                분포도 보기
-                                                            </Button>
-                                                            )
-                                                    }
-                                                    <Button
-                                                        variant="contained"
-                                                        size="large"
-                                                        onClick={onClickBack}
-                                                        style={{marginLeft: 20}}
-                                                    >
-                                                        BACK
-                                                    </Button>
-                                                </>
                                             )
-                                    )
+                                        }
+                                        <Button
+                                            variant="contained"
+                                            size="large"
+                                            onClick={onClickBack}
+                                            style={{ marginLeft: 20 }}
+                                        >
+                                            BACK
+                                        </Button>
+                                    </>
+                                )
                             )
+                        )
                         }
                     </TabPanel>
                     <TabPanel value={value} index={2}>
                         <Button onClick={onClickDeleteUser}>회원 탈퇴</Button>
->>>>>>> 62a1e659b432f23bb257c4399425403a85de315e
                     </TabPanel>
-                </Grid>
-            </Box>
+                </Grid >
+            </Box >
         </>
     )
 }
