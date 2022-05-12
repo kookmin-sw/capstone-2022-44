@@ -8,7 +8,6 @@ import { useNavigate } from "react-router-dom"
 
 const UserInfo = () => {
     const [users, setUsers] = useState([]);
-    // const user = auth.currentUser;
     const navigate = useNavigate();
 
 
