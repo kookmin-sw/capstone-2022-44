@@ -8,7 +8,8 @@ import Upload from "../components/Upload"
 import Enroll from "../components/Enroll"
 import WebGazer from '../components/WebGazer'
 import Track from '../components/Track'
-import Mypage from '../components/Mypage'
+import Mypage from '../components/Mypage/Mypage'
+
 
 
 const Router = () => {
@@ -25,7 +26,6 @@ const Router = () => {
             <Route path="/webgazer" element={<WebGazer />} />
             <Route path="/track" element={<Track />} />
             <Route path="/mypage" element={<Mypage />} />
-
         </Routes>
     );
 };

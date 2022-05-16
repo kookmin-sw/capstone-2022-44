@@ -97,7 +97,8 @@ const Enroll = () => {
         enfrm.append("position", position);
         enfrm.append('card', image);
 
-        await axios.post('http://52.79.247.7:8000/user/', enfrm).then(() => {
+
+        await axios.post('http://52.78.175.237:8000/user/', enfrm).then(() => {
             createUserWithEmailAndPassword(auth, email, password).then(() => {
                 alert("정상적으로 회원가입이 완료되었습니다.");
                 navigate("/home");
@@ -144,19 +145,20 @@ const Enroll = () => {
         setImage(event.target.files[0]);
     }
 
-    const validationPasswords = () => {
-        const passwordRegex = /^(?=.*[a-zA-Z])(?=.*[!@#$%^*+=-])(?=.*[0-9]).{8,25}$/;
-        return passwordRegex.test(password);
+    // const validationPasswords = () => {
 
-    }
+    //     const passwordRegex = /^(?=.*[a-zA-Z])(?=.*[!@#$%^*+=-])(?=.*[0-9]).{8,25}$/;
+
+    //     return passwordRegex.test(password)
+    // }
 
     const validationRepeatPasswords = () => {
 
         // 비밀번호 같은지 체크
         if (password !== confirmpassword) {
-            return false;
-        } else {
             return true;
+        } else {
+            return false;
         }
     }
 
@@ -189,15 +191,14 @@ const Enroll = () => {
                         </Grid>
                         <Grid item xs={12}>
                             <TextField
-                                required
                                 fullWidth
-                                label="Password(숫자+영문자+특수문자 8자리 이상)"
                                 name="password"
+                                label="Password"
                                 type="password"
                                 value={password}
                                 onChange={onChange}
-                                error={!validationPasswords()}
-                                helperText={validationPasswords() ? "" : "숫자+영문자+특수문자 조합으로 8자리 이상 입력해주세요!"}
+                                error={password.length < 6 ? true : false}
+                                helperText={password.length < 6 ? "6자리 이상 입력해주세요!" : ""}
                             />
                         </Grid>
                         <Grid item xs={12}>
@@ -208,8 +209,8 @@ const Enroll = () => {
                                 type="password"
                                 value={confirmpassword}
                                 onChange={onChange}
-                                error={!validationRepeatPasswords()}
-                                helperText={validationRepeatPasswords() ? "" : '비밀번호가 일치하지 않습니다.'}
+                                error={validationRepeatPasswords()}
+                                helperText={!validationRepeatPasswords() ? "" : '비밀번호가 일치하지 않습니다.'}
                             />
                         </Grid>
                         <Grid item xs={12}>
@@ -255,7 +256,7 @@ const Enroll = () => {
                                     onChange={handleChangeField}
                                     input={<OutlinedInput label="Job_Field" />}
                                     MenuProps={MenuProps}
-                                    defaultValue={""}
+                                    defaultValue=""
                                 >
                                     {jobFields.map((field) => (
                                         <MenuItem
@@ -278,7 +279,7 @@ const Enroll = () => {
                                     onChange={handleChangeJob}
                                     input={<OutlinedInput label="Job" />}
                                     MenuProps={MenuProps}
-                                    defaultValue={""}
+                                    defaultValue=""
                                 >
                                     {jobs.map((job) => (
                                         <MenuItem
@@ -299,7 +300,7 @@ const Enroll = () => {
                                     onChange={handleChangePosition}
                                     input={<OutlinedInput label="Sub" />}
                                     MenuProps={MenuProps}
-                                    defaultValue={""}
+                                    defaultValue=""
                                 >
                                     {options}
 
