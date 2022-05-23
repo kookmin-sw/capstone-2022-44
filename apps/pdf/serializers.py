@@ -21,11 +21,15 @@ class PDFSerializer(serializers.ModelSerializer):
     user_name = serializers.SerializerMethodField()
     @swagger_serializer_method(serializer_or_field=serializers.CharField)
     def get_user_name(self, obj):
+        if obj.user == None:
+            return "탈퇴한 사용자"
         return obj.user.username
     
     user_email = serializers.SerializerMethodField()
     @swagger_serializer_method(serializer_or_field=serializers.CharField)
     def get_user_email(self, obj):
+        if obj.user == None:
+            return "탈퇴한 사용자"
         return obj.user.email
     
     imgs_url = serializers.SerializerMethodField()
