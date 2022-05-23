@@ -84,4 +84,6 @@ class PDFModel(models.Model):
             super().save(*args, **kwargs)
 
     def __str__(self):
+        if self.user == None:
+            return "%s (탈퇴한 사용자)" % (self.name)
         return "%s (%s)" % (self.name, self.user.email)
