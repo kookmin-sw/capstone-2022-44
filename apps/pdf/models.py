@@ -39,9 +39,6 @@ def pdf_to_image(instance):
     except: # MS Windows
         images = convert_from_bytes(pdf_bytes, fmt=FMT, poppler_path="pdf/poppler/Library/bin/", size=SIZE)
         
-    if DEBUG:
-        print("파일을 이미지로 변환 중 입니다.")
-        
     # 페이지 단위로 이미지 저장
     for i, image in enumerate(images):
         # 버퍼에 이미지 저장
@@ -61,6 +58,41 @@ def pdf_to_image(instance):
     return len(images)
 
 
+# PPTX TO PDF -> Image Converting
+def pptx_to_image(instance):
+    import aspose.slides as slides
+    
+    buffer = BytesIO(instance.pdf.open('rb').read())
+    pptx = slides.Presentation(buffer)
+    pdf = BytesIO()
+    pptx.save(pdf, slides.export.SaveFormat.PDF)
+    pdf.seek(0)
+    
+    # PDF로 변환된 파일 저장
+    s3r.Bucket(AWS_STORAGE_BUCKET_NAME).put_object(
+                Key="%s/%s/user_%d/pdf/%d/%s.pdf" % (STORAGE_TYPE, STORAGE_ACCESS, instance.user.id, instance.id, instance.name.rstrip(".pptx")), 
+                Body=pdf, 
+                ContentType="application/pdf")
+    
+    # pdf_to_image 와 유사
+    try:
+        images = convert_from_bytes(pdf.getbuffer().tobytes(), fmt=FMT, size=SIZE)
+    except:
+        images = convert_from_bytes(pdf.getbuffer().tobytes(), fmt=FMT, poppler_path="pdf/poppler/Library/bin/", size=SIZE)
+        
+    for i, image in enumerate(images):
+        buffer = BytesIO()
+        image.save(buffer, format=BUFFER_IMAGE_TYPE)
+        buffer.seek(0)
+        
+        s3r.Bucket(AWS_STORAGE_BUCKET_NAME).put_object(
+            Key="%s/%s/user_%d/pdf/%d/images/%d.jpg" % (STORAGE_TYPE, STORAGE_ACCESS, instance.user.id, instance.id, i), 
+            Body=buffer, 
+            ContentType=CONTENT_TYPE)
+        
+    return len(images)
+
+
 # PDF 파일 모델
 class PDFModel(models.Model):
     user = models.ForeignKey(User, on_delete=models.SET_NULL, related_name="user", db_column="user", null=True)
@@ -75,11 +107,15 @@ class PDFModel(models.Model):
     
     def save(self, *args, **kwargs):
         if self.id is None:
+            content_type = kwargs.pop("content_type")
             temp_pdf = self.pdf
             self.pdf = None
             super().save(*args, **kwargs)
             self.pdf = temp_pdf
-            self.img_length = pdf_to_image(self)
+            if content_type == "application/pdf":
+                self.img_length = pdf_to_image(self)
+            else:
+                self.img_length = pptx_to_image(self)
             self.img_path = "https://%s/%s/%s/user_%d/pdf/%d/images/" % (AWS_S3_CUSTOME_DOMAIN, STORAGE_TYPE, STORAGE_ACCESS, self.user.id, self.id)
             super().save(*args, **kwargs)
 

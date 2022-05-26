@@ -76,9 +76,11 @@ class PDFAPI(APIView):
                     return Response({'error_message': "%s 데이터가 없습니다." % POLICY.QUERY_NAME_MATCH[key]}, status=HTTP_406_NOT_ACCEPTABLE)
             
             # 파일 포맷 검증
-            if dataDict["pdf"].content_type != "application/pdf":
+            if dataDict["pdf"].content_type != "application/pdf" and dataDict["pdf"].content_type != "application/vnd.openxmlformats-officedocument.presentationml.presentation":
                 return Response({'error_message': "파일 확장자가 올바르지 않습니다."}, status=HTTP_406_NOT_ACCEPTABLE)
-            
+            else:
+                dataDict["name"] = normalize("NFC", dataDict["pdf"].name)
+                
             # 이메일 검증
             user = User.objects.filter(email=dataDict["email"])
             if not user:
@@ -93,12 +95,12 @@ class PDFAPI(APIView):
             # PDF 저장
             pdf = PDFModel(user=uploader,
                             pdf=dataDict["pdf"],
-                            name=normalize("NFC", dataDict["pdf"].name),
+                            name=dataDict["name"],
                             deadline=dataDict["deadline"],
                             views=0,
                             job_field=dataDict["job_field"],
                             )
-            pdf.save()
+            pdf.save(content_type=dataDict["pdf"].content_type)
             
             # 크레딧 차감
             uploader.credit -= POLICY.UPLOAD_CREDIT
