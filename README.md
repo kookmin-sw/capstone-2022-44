@@ -27,6 +27,11 @@
 * 발표전 발표자료의 피드백이 필요한 학생, 직장인
 
 
+-----
+<img src="https://user-images.githubusercontent.com/65993842/170505071-a1d1b4c5-d78e-49e1-b2e3-cad1acbbdacd.png"/>
+<img src="https://user-images.githubusercontent.com/65993842/170505077-acd78d6f-04b7-4644-b5cd-a1429fe7afbe.png"/>
+<img src="https://user-images.githubusercontent.com/65993842/170505080-c56aa661-bb59-4884-987f-749581f273c8.png"/>
+
 
 ## 2. 소개 영상
 [![Video Label](http://img.youtube.com/vi/Qwk2XAd6FpI/0.jpg)](https://youtu.be/Qwk2XAd6FpI)
