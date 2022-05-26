@@ -12,10 +12,18 @@
 * 페이지 별 시선 분포 데이터 제공
 * 평가자 별 시선 흐름 데이터 제공
 
+
+### 타겟
+
+* 발표전 발표자료의 피드백이 필요한 학생, 직장인
+
+
 -----
-<img src="https://user-images.githubusercontent.com/65993842/170505071-a1d1b4c5-d78e-49e1-b2e3-cad1acbbdacd.png"/>
-<img src="https://user-images.githubusercontent.com/65993842/170505077-acd78d6f-04b7-4644-b5cd-a1429fe7afbe.png"/>
-<img src="https://user-images.githubusercontent.com/65993842/170505080-c56aa661-bb59-4884-987f-749581f273c8.png"/>
+<img align=left src="https://user-images.githubusercontent.com/65993842/170509543-dea7ed36-8406-4b77-a0b3-d0c4eca9962b.png"/>
+<img align=left src="https://user-images.githubusercontent.com/65993842/170509547-df9b3af7-37a8-45db-834d-420efe96049c.png"/>
+<img src="https://user-images.githubusercontent.com/65993842/170509549-f39c3819-c476-4488-8957-ceb29a97e557.png"/>
+<img src="https://user-images.githubusercontent.com/65993842/170509554-404c7bb3-6291-4d78-abf5-79f10e8cbdb6.png"/>
+<img src="https://user-images.githubusercontent.com/65993842/170509556-017a4672-25e0-4d3b-ada8-c36fbf434914.png"/>
 
 
 <div align=left><h1>📚 STACKS</h1></div> 
@@ -28,9 +36,6 @@
 
 <img src="https://img.shields.io/badge/MySQl-4479A1?style=for-the-badge&logo=mysql&logoColor=white"/><img src="https://img.shields.io/badge/Django-092E20?style=for-the-badge&logo=django&logoColor=white"/><img src="https://img.shields.io/badge/Amazon AWS-232F3E?style=for-the-badge&logo=amazon aws&logoColor=white"/><img src="https://img.shields.io/badge/nginx-%23009639.svg?style=for-the-badge&logo=nginx&logoColor=white"/><img src="https://img.shields.io/badge/gunicorn-%298729.svg?style=for-the-badge&logo=gunicorn&logoColor=white"/>
 
-### 타겟
-
-* 발표전 발표자료의 피드백이 필요한 학생, 직장인
 
 
 ## 2. 소개 영상
