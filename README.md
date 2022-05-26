@@ -1,5 +1,11 @@
 ## 1. 프로젝트 소개
 
+<p align="center">
+            <img src="https://user-images.githubusercontent.com/65993842/170509543-dea7ed36-8406-4b77-a0b3-d0c4eca9962b.png" width="50%" />
+            <img src="https://user-images.githubusercontent.com/65993842/170509549-f39c3819-c476-4488-8957-ceb29a97e557.png" width="50%" />
+            <img src="https://user-images.githubusercontent.com/65993842/170509556-017a4672-25e0-4d3b-ada8-c36fbf434914.png" width="50%" />
+</p>
+
 ### 프로젝트 설명
 
 * 발표 자료가 기획자의 의도대로 제작되었는지, 시각 자료가 효과적으로 배치되었는지 등 PPT분석을 통해 발표 자료 제작을 돕는 서비스를 제공하고자 해당 프로젝트를 기획하게 되었습니다. 사용자의 발표 자료가 청취자의 예상되는 시각 흐름과 청취자의 실제 시각 흐름을 시각화하여 사용자에게 보여주고 시각화한 자료의 분석을 통해 발표 자료 배치를 추천합니다. 발표 전 다른 사용자들의 피드백을 받아 PPT 수정이 가능한 사이트 제작을 목표로 하고 있습니다.
@@ -19,13 +25,6 @@
 
 
 -----
-<img align=left src="https://user-images.githubusercontent.com/65993842/170509543-dea7ed36-8406-4b77-a0b3-d0c4eca9962b.png"/>
-<img align=left src="https://user-images.githubusercontent.com/65993842/170509547-df9b3af7-37a8-45db-834d-420efe96049c.png"/>
-<img src="https://user-images.githubusercontent.com/65993842/170509549-f39c3819-c476-4488-8957-ceb29a97e557.png"/>
-<img src="https://user-images.githubusercontent.com/65993842/170509554-404c7bb3-6291-4d78-abf5-79f10e8cbdb6.png"/>
-<img src="https://user-images.githubusercontent.com/65993842/170509556-017a4672-25e0-4d3b-ada8-c36fbf434914.png"/>
-
-
 <div align=left><h1>📚 STACKS</h1></div> 
 
 *front-end
