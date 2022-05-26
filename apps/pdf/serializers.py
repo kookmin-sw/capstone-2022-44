@@ -16,7 +16,7 @@ class PDFSerializer(serializers.ModelSerializer):
     pdf_name = serializers.SerializerMethodField()
     @swagger_serializer_method(serializer_or_field=serializers.CharField)
     def get_pdf_name(self, obj):
-        return obj.name.rstrip(".pdf")
+        return obj.name.rstrip(".pdf").rstrip(".pptx")
     
     user_name = serializers.SerializerMethodField()
     @swagger_serializer_method(serializer_or_field=serializers.CharField)
